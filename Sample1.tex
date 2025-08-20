@@ -1,0 +1,328 @@
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+% Dracula theme colors
+\definecolor{draculabg}{HTML}{282A36}
+\definecolor{draculafg}{HTML}{F8F8F2}
+\definecolor{draculacomment}{HTML}{6272A4}
+\definecolor{draculacyan}{HTML}{8BE9FD}
+\definecolor{draculagreen}{HTML}{50FA7B}
+\definecolor{draculapink}{HTML}{FF79C6}
+\definecolor{draculapurple}{HTML}{BD93F9}
+\definecolor{draculared}{HTML}{FF5555}
+\definecolor{draculayellow}{HTML}{F1FA8C}
+
+% Page and text colors
+\pagecolor{draculabg}
+\color{draculafg}
+
+% Hyperref colors
+\hypersetup{
+  linkcolor=draculacyan,
+  urlcolor=draculagreen,
+  citecolor=draculapurple
+}
+
+% Section colors
+\titleformat{\section}{\Large\bfseries\color{draculapurple}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{draculapink}}{}{0.4em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{draculacyan}}{}{0.4em}{}
+
+% Lists
+\setlist[itemize]{itemsep=0.2em,topsep=0.2em}
+\setlist[enumerate]{itemsep=0.2em,topsep=0.2em}
+
+% Listings style
+\lstset{
+  backgroundcolor=\color{draculabg},
+  basicstyle=\ttfamily\small\color{draculafg},
+  keywordstyle=\color{draculapink},
+  stringstyle=\color{draculayellow},
+  commentstyle=\color{draculacomment},
+  identifierstyle=\color{draculacyan},
+  frame=single,
+  rulecolor=\color{draculacomment},
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2
+}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{API Penetration Testing: A Comprehensive Report}}\\[0.6em]
+{\large \textcolor{draculagreen}{Author: ANANYA K} \ \ \textcolor{draculacyan}{\href{https://www.linkedin.com/in/ananya-k-46184125b}{LinkedIn}}}\\[0.25em]
+{\large \textcolor{draculapurple}{Platform: ROOTX}}\\[0.25em]
+{\large \textcolor{draculapurple}{Date: August 20, 2025}}
+\end{center}
+
+\section{Executive Summary}
+This report provides a comprehensive overview of the methodologies and practical techniques
+used in API (Application Programming Interface) penetration testing. APIs serve as the
+backbone of nearly all modern applications, connecting user interfaces to backend services and
+databases. This ubiquitous reliance has made them a critical and often underestimated attack
+surface.
+
+The objective of this document is to detail the process of identifying, exploiting, and mitigating
+vulnerabilities within APIs. It covers foundational concepts, essential security tools, and hands-
+on demonstrations of the OWASP API Security Top 10 risks. The findings are based on a
+practical, lab-based approach, supplemented with real-world examples from public bug bounty
+programs to underscore the real-world impact of these security flaws.
+
+By mastering the techniques outlined in this report, security professionals can significantly
+enhance their ability to discover high-impact vulnerabilities and protect organizations from
+data breaches and financial loss.
+
+\section{Introduction to APIs: The New Frontier of Web Security}
+
+\subsection*{What is an API?}
+An API, or Application Programming Interface, is a set of defined rules and protocols that
+allows different software applications to communicate and exchange data. In a typical web
+application, the user’s browser (the client) sends requests to a server via an API, which then
+retrieves or modifies data and sends a response back.
+
+A simple analogy is a waiter in a restaurant:
+\begin{itemize}
+  \item \textbf{You (the user):} Place an order for a specific dish.
+  \item \textbf{The Waiter (the API):} Takes your order to the kitchen.
+  \item \textbf{The Chef (the backend server):} Prepares the dish.
+  \item \textbf{The Waiter (the API):} Delivers the finished dish to your table.
+\end{itemize}
+
+This role makes APIs a central point of data flow and a prime target for security exploitation if
+not properly secured.
+
+\subsection*{API Attack Surface}
+The attack surface of an API is vast due to its direct connection to backend data and business
+logic. Common vulnerabilities found in APIs can lead to data exposure, privilege escalation,
+and business disruption. Despite this, a significant number of security researchers still primarily
+focus on traditional web application vulnerabilities, overlooking the massive opportunities for
+bug discovery in API endpoints.
+
+Public data from bug bounty platforms like HackerOne and Bugcrowd confirms this trend, with
+hundreds of programs publicly listing their API endpoints as in-scope targets.
+
+\subsection*{Common Types of APIs}
+\begin{itemize}
+  \item \textbf{REST (Representational State Transfer):} The most popular and widely adopted API
+  architecture. It uses standard HTTP methods (GET, POST, PUT, DELETE) to perform
+  actions on resources and relies on lightweight JSON data for communication.
+  \item \textbf{SOAP (Simple Object Access Protocol):} An older, more rigid protocol that uses XML
+  for data exchange. It is commonly found in legacy enterprise applications and is more
+  complex to work with.
+  \item \textbf{GraphQL:} A modern, flexible query language developed by Facebook. It allows
+  clients to request only the specific data they need, which reduces network overhead and
+  improves performance. GraphQL also uses JSON for data.
+\end{itemize}
+
+\section{Key Methodologies and Tooling}
+A structured approach to API penetration testing involves a combination of manual testing and
+automated tools.
+
+\subsection*{Lab Environment}
+The Vulnerable Adversely Programmed API (VAPI) was used as a safe, dedicated practice
+environment. VAPI is an open-source, Docker-based application with built-in vulnerabilities
+that align with the OWASP API Security Top 10 list.
+
+\subsubsection*{Lab Setup Process:}
+\begin{enumerate}
+  \item \textbf{Clone the Repository:}
+  \begin{lstlisting}[language=bash]
+git clone https://github.com/roottusk/vapi.git
+cd vapi
+  \end{lstlisting}
+
+  \item \textbf{Start the Docker Containers:}
+  \begin{lstlisting}[language=bash]
+docker compose up -d
+  \end{lstlisting}
+
+  \item \textbf{Access the Lab:} Once running, the API can be accessed at \texttt{http://<your\_local\_ip>/vapi}.
+\end{enumerate}
+
+\subsection*{Essential Tools}
+\begin{itemize}
+  \item \textbf{Postman:} A powerful, industry-standard API client. Postman was used for:
+  \begin{itemize}
+    \item Sending and managing API requests.
+    \item Organizing API endpoints into Collections.
+    \item Using Environments to manage variables like base URLs and tokens.
+    \item Leveraging Postman AI to automatically generate test scripts for baseline security checks.
+  \end{itemize}
+
+  \item \textbf{Burp Suite:} A leading web proxy and security testing tool. Its primary functions in this context were:
+  \begin{itemize}
+    \item \textbf{Proxy:} Intercepting and analyzing all API traffic between Postman and the server.
+    \item \textbf{Repeater:} Manually replaying and modifying requests to test for vulnerabilities.
+    \item \textbf{Intruder:} Automating brute-force and fuzzing attacks against API endpoints.
+  \end{itemize}
+
+  \item \textbf{Neuer:} A specialized tool for API Attack Surface Mapping. Neuer analyzes
+  application source code or API specification files (like Swagger/OpenAPI) to discover
+  all existing endpoints, methods, parameters, and headers. This allows testers to find
+  ``hidden'' or undocumented endpoints (e.g., \texttt{/v2/admin}) that might not be visible during
+  normal dynamic testing.
+
+  \item \textbf{Gron:} A command-line utility that converts JSON data into a simple, line-oriented,
+  greppable format. This is crucial for parsing large, complex JSON responses and
+  efficiently searching for sensitive data or interesting fields.
+\end{itemize}
+
+\section{Detailed Vulnerability Analysis and Practicals}
+
+\subsection*{API1: Broken Object Level Authorization (BOLA)}
+\textbf{Description:} This vulnerability occurs when an API endpoint accepts a user-supplied object
+ID (e.g., \texttt{/users/123}) but fails to verify that the requesting user is authorized to access that
+specific object. An attacker can simply change the ID in the request to view or modify other
+users' data. BOLA is the API equivalent of a classic IDOR (Insecure Direct Object Reference)
+bug.
+
+\textbf{Practical Demonstration:}
+\begin{enumerate}
+  \item \textbf{Register a User:} A new user is created via the \texttt{POST /api/v1/user} endpoint. The server
+  assigns an ID, for example, \texttt{id: 7}.
+  \item \textbf{Access Own Data:} A \texttt{GET /api/v1/user/7} request successfully returns the user's data.
+  \item \textbf{Exploitation:} The attacker changes the ID in the GET request to \texttt{1}, which is the ID of
+  another user (in this case, an administrator account).
+  \item \textbf{HTTP}
+  \begin{lstlisting}
+GET /api/v1/user/1
+  \end{lstlisting}
+  \item \textbf{Result:} The API returns the sensitive data of user \texttt{id: 1}, including a flag that confirms
+  the vulnerability.
+\end{enumerate}
+
+\textbf{Remediation:} Always implement robust authorization checks on the server side. Before an
+API processes a request for a resource, it must verify that the authenticated user owns or has
+explicit permission to access that resource.
+
+\subsection*{API6: Mass Assignment}
+\textbf{Description:} Mass assignment allows an attacker to add extra, un-intended parameters to an
+API request. If the backend automatically maps all received parameters to a database object
+without a strict whitelist, the attacker can modify sensitive attributes like \texttt{isAdmin}, \texttt{role}, or
+\texttt{credits}.
+
+\textbf{Practical Demonstration:}
+\begin{enumerate}
+  \item \textbf{Normal User Creation:} A user is created with a username, name, and password. The
+  user's account is created with \texttt{credits: 0}.
+  \item \textbf{Exploitation:} The attacker sends a new \texttt{POST} request to create a user but adds an extra
+  parameter, \texttt{"credit": 100}, to the request body.
+\end{enumerate}
+
+\textbf{JSON}
+\begin{lstlisting}[language=json]
+{
+  "name": "New Hacker",
+  "username": "new_hacker",
+  "password": "pass123",
+  "credit": 100
+}
+\end{lstlisting}
+
+\textbf{Result:} The API processes the request and assigns \texttt{100} credits to the new account,
+demonstrating that the backend did not filter out the unauthorized parameter.
+
+\textbf{Remediation:} Developers should use a strict whitelist of allowed parameters. Any parameters
+not on the list should be ignored or rejected by the API. Using Data Transfer Objects (DTOs)
+with explicit field definitions can effectively prevent this.
+
+\subsection*{API4: Lack of Resources \& Rate Limiting}
+\textbf{Description:} This vulnerability occurs when an API endpoint does not have any controls to
+limit the number of requests from a user or IP address over a period of time. This absence of
+rate limiting makes the API vulnerable to brute-force attacks and denial of service.
+
+\textbf{Practical Demonstration:}
+\begin{enumerate}
+  \item \textbf{Identify a Target:} A mobile login API for a \texttt{v2} endpoint is used. It requires a 4-digit
+  PIN for authentication.
+  \item \textbf{Brute-Force Attack:} The request is sent to Burp Suite's Intruder. A payload set is
+  configured to test all possible numbers from \texttt{0000} to \texttt{9999}.
+  \item \textbf{Result:} The server does not block or rate-limit the requests. The brute-force attack
+  successfully finds the correct PIN, leading to an account takeover.
+\end{enumerate}
+
+\textbf{Real-World Examples:}
+\begin{itemize}
+  \item A well-known bug bounty report detailed a security researcher who earned a \${}15{,}000
+  bounty from GitHub by brute-forcing a 6-digit OTP due to a lack of rate limiting on
+  the password reset API.
+  \item Another researcher received \${}30{,}000 for a similar brute-force vulnerability on an
+  Instagram API.
+\end{itemize}
+
+\textbf{Remediation:} Implement server-side rate-limiting for all authentication-related endpoints.
+This includes login, password reset, and OTP verification APIs.
+
+\subsection*{API7: Security Misconfiguration (CORS)}
+\textbf{Description:} Cross-Origin Resource Sharing (CORS) is a mechanism that allows or denies
+web pages from making cross-origin requests. A misconfigured CORS policy, such as allowing
+access from \texttt{*} (any origin) or reflecting an attacker's domain in the \texttt{Access-Control-Allow-Origin}
+header, can allow a malicious website to steal sensitive data from a vulnerable API.
+
+\textbf{Practical Demonstration:}
+\begin{enumerate}
+  \item \textbf{Find a Vulnerable Endpoint:} A legitimate user logs in and fetches a ``personal key''
+  via the API.
+  \item \textbf{Check for Misconfiguration:} The attacker sends a request with a custom header,
+  \texttt{Origin: evil.com}.
+  \item \textbf{Result:} The server responds with \texttt{Access-Control-Allow-Origin: *} and \texttt{Access-Control-Allow-Credentials: true}. The \texttt{*} indicates that the API is willing to share data with any
+  domain, and \texttt{true} allows the attacker to steal the user's sensitive data (like cookies or
+  API keys) from the response.
+\end{enumerate}
+
+\textbf{Remediation:} Configure the \texttt{Access-Control-Allow-Origin} header to only list explicitly
+trusted domains. Avoid using a wildcard (\texttt{*}) and set \texttt{Access-Control-Allow-Credentials} to \texttt{false}
+unless absolutely necessary.
+
+\section{Advanced Techniques and Tools}
+
+\subsection*{API Fuzzing}
+Fuzzing is a powerful technique for discovering new vulnerabilities. A simple bash script can
+be used to send a list of pre-defined payloads (e.g., SQL injection, XSS) to multiple API
+endpoints.
+
+\textbf{Fuzzer Script:} The fuzzer script automates the process of testing endpoints against payloads.
+It can detect vulnerabilities by looking for specific keywords in the server's response (e.g.,
+``SQL,'' ``error,'' or the reflected payload itself). Critically, the script is configured to send all
+requests through a proxy like Burp Suite, allowing the tester to review and manually modify
+any suspicious-looking requests.
+
+\textbf{Case Study: WAF Bypass:} Fuzzing can reveal how an application handles unusual input. For
+example, a fuzzing-based approach can uncover payloads that bypass a Web Application
+Firewall (WAF) like Cloudflare, allowing for successful exploitation of a cross-site scripting
+(XSS) vulnerability.
+
+\subsection*{Attack Surface Mapping with Neuer}
+When source code or API documentation is available (a white-box scenario), tools like Neuer
+can be invaluable. Neuer analyzes the source code of an application to automatically identify
+all API endpoints, methods, and parameters.
+
+\textbf{Benefits:}
+\begin{itemize}
+  \item \textbf{Comprehensive Coverage:} Finds ``hidden'' or undocumented endpoints that a tester
+  might not discover through normal browsing.
+  \item \textbf{Efficient Fuzzing:} Provides a complete list of parameters, ensuring that the fuzzer tests
+  every possible input field.
+  \item \textbf{Time-Saving:} Drastically reduces the time spent on manual reconnaissance, allowing
+  the tester to focus on exploitation.
+\end{itemize}
+
+\section{Conclusion and Future Directions}
+This report has detailed a comprehensive approach to API security testing, covering a range of
+vulnerabilities from object-level authorization bypasses to advanced fuzzing techniques. By
+understanding API fundamentals, utilizing the right tools, and applying a methodical approach,
+security professionals can effectively protect a company's most critical assets.
+
+The skills covered—including BOLA, Mass Assignment, Rate Limiting, CORS, and the use of
+tools like Postman, Burp Suite, and Neuer—form a robust foundation. Continued learning and
+practice are essential to keep pace with evolving API technologies and emerging threats.
+
+\end{document}
