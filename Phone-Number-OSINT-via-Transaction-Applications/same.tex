@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{pagecolor}
+\usepackage{graphicx}
+\usepackage{float}
+
+% Dark theme colors
+\definecolor{darkbg}{HTML}{121212}
+\definecolor{lighttext}{HTML}{E6E6E6}
+\definecolor{codegray}{HTML}{2D2D2D}
+\definecolor{accent}{HTML}{8DA0B6}
+
+% Set page and text colors
+\pagecolor{darkbg}
+\color{lighttext}
+
+% Configure hyperref for dark background
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    filecolor=accent,
+    urlcolor=accent,
+    citecolor=accent,
+}
+
+% Title formatting
+\titleformat{\section}{\centering\Large\bfseries\color{accent}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{accent}}{\thesubsection}{1em}{}
+
+% Code listing style
+\lstset{
+    backgroundcolor=\color{codegray},
+    basicstyle=\ttfamily\footnotesize\color{lighttext},
+    frame=single,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{accent}{$\hookrightarrow$}\space},
+    rulecolor=\color{accent},
+}
+
+\title{Phone Number OSINT via Transaction Applications: Practical Methodology}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Phone numbers and email addresses are key digital identifiers. While reverse lookup services exist, they are often unreliable or costly. Modern peer-to-peer (P2P) financial apps, however, require identity verification for transactions, which can be leveraged for Open Source Intelligence (OSINT) investigations to link a number or email to a real-world identity.
+
+\section{The Technique: Transaction App Lookup}
+
+P2P apps universally display the account holder's name before completing a transaction. By using this verification step without sending any funds, an investigator can determine the registered identity.
+
+\begin{enumerate}
+    \item Identify the target identifier (phone number or email).
+    \item Select the most common P2P app used in the target's country.
+    \item Initiate a transaction via the app’s \textit{Send Money} or \textit{Pay} function.
+    \item Input the identifier; the app displays the registered name for confirmation.
+    \item Cancel the transaction after confirming the identity.
+\end{enumerate}
+
+\section{Application Across Countries}
+
+\begin{itemize}
+    \item \textbf{India} – PhonePe, Paytm, Google Pay, BHIM UPI
+    \item \textbf{USA} – Venmo, PayPal, Cash App, Zelle
+    \item \textbf{UK} – Revolut, Monzo, Starling Bank, PayPal
+    \item \textbf{Canada} – Interac e-Transfer, PayPal
+    \item \textbf{Australia} – PayPal, Beem It
+    \item \textbf{Germany} – N26, PayPal
+    \item \textbf{China} – Alipay, WeChat Pay
+    \item \textbf{Japan} – PayPay, Line Pay, Rakuten Pay
+    \item \textbf{Singapore} – GrabPay, PayNow, DBS PayLah!
+    \item \textbf{Brazil} – PicPay, Nubank, Mercado Pago
+\end{itemize}
+
+\section{Limitations and Ethics}
+
+\begin{itemize}
+    \item Only public-facing identity information can be accessed; private verification layers may block lookups.
+    \item Misuse for harassment, financial fraud, or unauthorized transactions is illegal.
+    \item The method must be limited to OSINT research, investigation, or authorized security work.
+\end{itemize}
+
+\textbf{Ethical Imperative:} Lookup should be performed only in the verification phase; the transaction must be immediately canceled.
+
+\section{Practical Example: Resolving Identities via Transaction Apps}
+
+If you have an Indian phone number, you can use any UPI app (PhonePe, Google Pay, Paytm, BHIM) and select the "Pay Money" option via mobile number. By searching the target number, there is a very high chance you will find the real name behind that number, as almost everyone links their account with their real identity.
+
+For foreign numbers or emails, you can search on the most commonly used apps in that country. For example, a foreign email can be searched on PayPal, where there is a high probability of discovering the real name associated with that email account. This method works effectively because these apps require real identities to function properly, and the verification step can be leveraged for OSINT purposes.
+
+\end{document}
