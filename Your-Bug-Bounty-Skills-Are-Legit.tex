@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{pagecolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Dark color scheme
+\definecolor{darkbg}{RGB}{30, 30, 40}
+\definecolor{accent}{RGB}{0, 200, 220}
+\definecolor{textcolor}{RGB}{230, 230, 240}
+\definecolor{lightaccent}{RGB}{100, 230, 255}
+
+% Set page and text colors
+\pagecolor{darkbg}
+\color{textcolor}
+
+% Section formatting
+\titleformat{\section}
+{\color{accent}\normalfont\Large\bfseries}
+{\thesection}{1em}{}
+\titleformat{\subsection}
+{\color{accent}\normalfont\large\bfseries}
+{\thesubsection}{1em}{}
+
+% List formatting
+\setlist[itemize]{itemsep=3pt, topsep=6pt}
+\setlist[enumerate]{itemsep=3pt, topsep=6pt}
+
+% Title
+\title{\color{lightaccent}\Huge Stop Tripping: Your Bug Bounty Skills Are Legit}
+\author{}
+\date{\vspace{-5ex}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Yo, Listen Up}
+
+So you're out here finding dope bugs—zero-click account takeovers, race conditions, the real deal stuff. But then that voice in your head starts whispering: "Nah, you just got lucky. This ain't skill."
+
+Sound familiar? You're not alone. Pretty much every hunter goes through this. But that voice is straight-up lying to you. Let's break down why what you're doing is actual skill, not just random luck.
+
+\section{That "Luck" You're Talking About? It's Actually Skill}
+
+When you say you got "lucky," you're really downplaying some serious skills:
+
+\begin{itemize}
+\item \textbf{You don't quit}: Finding one bug might be luck. Finding ten? That's grind. That's putting in the work when others would've given up.
+
+\item \textbf{You know your stuff}: Race conditions? Zero-clicks? You don't just stumble into these. You need to understand timing, server behavior, and how to use tools properly. That's knowledge, not luck.
+
+\item \textbf{You find the right targets}: Before you can even test for bugs, you gotta find good targets. That's a skill all by itself.
+\end{itemize}
+
+Think about it like this: A lucky person finds a twenty on the sidewalk. You're consistently making money because you've developed real skills.
+
+\section{The Real Deal About Those "Rejected" Bugs}
+
+Dude, 3 out of 10 accepted is actually solid. Seriously. Let me break down what those other responses really mean:
+
+\begin{itemize}
+\item \textbf{N/A or OOS}: This just means you hit the wrong target, not that the bug wasn't legit. Your technical skills are still on point.
+
+\item \textbf{DUPLICATE}: This is actually a win! It means:
+  \begin{itemize}
+  \item Your bug was real
+  \item It was important enough that someone else found it too
+  \item You're looking in the right places
+  \end{itemize}
+
+\item \textbf{No reply}: Usually means the program is disorganized or overwhelmed. Not a reflection on your skills.
+\end{itemize}
+
+That 30% acceptance rate means you're efficiently finding real, unique bugs. The other 70% is just part of the game.
+
+\section{That Voice in Your Head is Playing You}
+
+What you're dealing with is classic imposter syndrome. Your brain is focusing on the "rejections" and ignoring your actual successes. It's trying to protect you from disappointment, but it's going about it all wrong.
+
+\section{How to Get Out of Your Own Head}
+
+Here's how to shift your mindset:
+
+\begin{enumerate}
+\item \textbf{Stop counting wrong}: Stop measuring yourself by acceptance rate. Start tracking:
+  \begin{itemize}
+  \item How many bugs you found (regardless of status)
+  \item How complex those bugs were
+  \item What you learned from each submission
+  \end{itemize}
+
+\item \textbf{Learn from the "L"s}: Every N/A, duplicate, or OOS is a free lesson. Figure out why it happened and adjust.
+
+\item \textbf{Love the hunt}: If you enjoy the process of finding bugs, the bounties become bonus points instead of the only thing that matters.
+
+\item \textbf{Talk to other hunters}: You'll quickly realize everyone has a graveyard of duplicates and rejected reports. It's part of the game.
+\end{enumerate}
+
+\section*{Bottom Line}
+
+Look, it's not luck. You've got real skills. The proof is right there in those accepted bugs. The others aren't failures—they're just part of your learning journey.
+
+Keep grinding. Your brain might be your worst critic, but it's not your most accurate one.
+
+\begin{center}
+\color{lightaccent}
+The only luck involved is companies being lucky you're testing their stuff.
+\end{center}
+
+\end{document}
